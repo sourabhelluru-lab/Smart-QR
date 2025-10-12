@@ -2,38 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tablet Details</title>
+    <title>Tablet Info</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-            text-align: center;
-            padding: 50px;
-        }
-        .card {
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            width: 300px;
-            margin: auto;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        h2 {
-            color: #333;
-        }
-        p {
-            color: #555;
-            margin: 5px 0;
-        }
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; background: #f9f9f9; }
+        h1 { color: #2E86C1; }
+        .info { margin-top: 20px; padding: 15px; background: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
+        p { margin: 10px 0; }
+        .verified { color: green; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2>Medicine Name: Paracetamol</h2>
-        <p>Batch No: B123</p>
-        <p>Expiry Date: 12/2026</p>
-        <p>Manufacturer: ABC Pharma</p>
-        <p>Contents: 500mg / tablet</p>
+    <h1 id="tabletName">Tablet Name</h1>
+    <div class="info">
+        <p><strong>Batch Number:</strong> <span id="batchNumber"></span></p>
+        <p><strong>Expiry Date:</strong> <span id="expiryDate"></span></p>
+        <p><strong>Company:</strong> <span id="company"></span></p>
+        <p><strong>Authenticity:</strong> <span class="verified">Verified ✅</span></p>
     </div>
+
+    <script>
+        // ----------------- Edit this batch info -----------------
+        const batchData = {
+            "B123": {
+                name: "Paracetamol 500mg",
+                expiry: "2026-05-01",
+                company: "Pharma Inc."
+            },
+            "B124": {
+                name: "Ibuprofen 200mg",
+                expiry: "2026-06-15",
+                company: "HealthCorp"
+            }
+            // Add more batches here
+        };
+
+        // Get batch from URL query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const batch = urlParams.get('batch');
+
+        if(batchData[batch]){
+            document.getElementById("tabletName").textContent = batchData[batch].name;
+            document.getElementById("batchNumber").textContent = batch;
+            document.getElementById("expiryDate").textContent = batchData[batch].expiry;
+            document.getElementById("company").textContent = batchData[batch].company;
+        } else {
+            document.body.innerHTML = "<h1>Batch Not Found</h1>";
+        }
+    </script>
 </body>
 </html>
+
