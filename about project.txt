@@ -1,1 +1,18 @@
-so okay this file is to check the terminal.
+Smart QR Code for Tablet Batches:
+In the current pharmaceutical system, only one QR code is usually printed on a full strip of tablets. When a customer purchases just one or two tablets instead of the entire strip, they often lose access to important information such as:
+1.The tablet name
+2.Manufacturer
+3.Purpose of the medicine
+4.Expiry date
+5.Authenticity
+
+To solve this, Smart QR proposes a system where every individual tablet in a strip carries a QR code.
+However, instead of generating millions of unique QR codes for each tablet, this project introduces an efficient solution:
+
+⭐ One QR code per batch, per day.
+All tablets produced in the same batch on the same day share one QR code, since:
+1.The expiry date remains the same.
+2.Manufacturing details are the same.
+3.Product information is identical.
+
+This dramatically reduces complexity while ensuring every tablet has a scannable identity.
