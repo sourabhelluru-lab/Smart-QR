@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart QR - Manufacturer Input</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Manufacturer Details</h2>
+
+        <label>Company Name</label>
+        <input type="text" id="companyName">
+
+        <label>Batch Name</label>
+        <input type="text" id="batchName">
+
+        <label>Manufacturing Date</label>
+        <input type="date" id="mfgDate">
+
+        <label>Expiry Date</label>
+        <input type="date" id="expDate">
+
+        <label>Number of Tablets</label>
+        <input type="number" id="tabletCount">
+
+        <label>Authenticity</label>
+        <select id="auth">
+            <option value="Authentic">Authentic</option>
+            <option value="Not Verified">Not Verified</option>
+        </select>
+
+        <button onclick="submitData()">Submit</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
