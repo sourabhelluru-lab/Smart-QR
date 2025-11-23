@@ -1,0 +1,11 @@
+POST http://localhost:8080/add-item
+Content-Type: application/json
+
+{
+  "id": "001",
+  "name": "Dolo 650",
+  "price": "30",
+  "expiry_date": "2026-08-15",
+  "authenticity": "Genuine",
+  "brand": "Micro Labs"
+}

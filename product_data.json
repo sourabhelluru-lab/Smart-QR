@@ -1,0 +1,10 @@
+{
+    "TM2787": {
+        "id": "123",
+        "name": "dolo",
+        "price": "15",
+        "expiry": "2025-11-15",
+        "authenticity": "true",
+        "brand": "pfizer"
+    }
+}
