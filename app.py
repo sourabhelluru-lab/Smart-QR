@@ -56,24 +56,23 @@ def generate_page():
 
 
 # ---------------------------
-# QR Generation API (PROFESSIONAL MODE)
+# QR GENERATION (PROFESSIONAL MODE)
 # ---------------------------
 @app.route("/add-item", methods=["POST"])
 def add_item():
     if "user" not in session:
         return jsonify({"error": "Not logged in"})
 
-    # Accept JSON or form submissions
     data = request.json or request.form
 
-    # Load existing product database
+    # Load existing data
     with open("product_data.json", "r") as f:
         product_store = json.load(f)
 
-    # Generate a secure unique product code (6 characters)
+    # Generate unique 6-character product code
     code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
 
-    # Save the product details with the code
+    # Save product details
     product_store[code] = {
         "id": data.get("id"),
         "name": data.get("name"),
@@ -83,17 +82,18 @@ def add_item():
         "brand": data.get("brand")
     }
 
-    # Save updated JSON
     with open("product_data.json", "w") as f:
         json.dump(product_store, f, indent=4)
 
-    # Create the clean product URL
-    full_url = f"http://localhost:8080/view-item?code={code}"
+    # ---------------------------
+    # ⭐ DYNAMIC HOST URL (works locally + works ON Render)
+    # ---------------------------
+    host = "https://smart-qr-4.onrender.com" # auto-detects domain
+    full_url = f"{host}/view-item?code={code}"
 
-    # Print on terminal
     print("\nQR Link:", full_url, "\n")
 
-    # Generate QR code from URL
+    # Generate QR code
     img = qrcode.make(full_url)
     buffer = BytesIO()
     img.save(buffer, format="PNG")
@@ -113,11 +113,10 @@ def add_item():
 def view_item():
     code = request.args.get("code")
 
-    # Load database
+    # Load product data
     with open("product_data.json", "r") as f:
         product_store = json.load(f)
 
-    # If the code does not exist → invalid QR
     if code not in product_store:
         return "Invalid or Expired QR Code"
 
