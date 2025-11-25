@@ -93,7 +93,8 @@ def add_item():
     micro_qr = segno.make(code, micro=True)
 
     buffer = BytesIO()
-    micro_qr.save(buffer, kind='png', scale=5)
+    micro_qr.save(buffer, kind='png', scale=15)
+
     buffer.seek(0)
     qr_base64 = base64.b64encode(buffer.read()).decode("utf-8")
 
