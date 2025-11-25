@@ -102,11 +102,12 @@ def add_item():
     print("\nMicro QR URL:", full_url, "\n")
 
     # MICRO QR generation using segno
-    qr = segno.make(full_url, micro=True)
+    qr = segno.make(code, micro=True)   # only the 6-digit code
     buffer = BytesIO()
     qr.save(buffer, kind='png', scale=5)
     buffer.seek(0)
     qr_base64 = base64.b64encode(buffer.read()).decode("utf-8")
+
 
     return jsonify({
         "message": "Micro QR Generated Successfully!",
@@ -119,14 +120,22 @@ def add_item():
 # ---------------------------
 @app.route("/view-item")
 def view_item():
+    # 1. Try normal ?code=XYZ in URL
     code = request.args.get("code")
 
+    # 2. If not found, maybe scanner sent only the code (raw text)
+    if not code:
+        code = request.full_path.strip("/?")  # reads raw scanned text
+
+    # Load database
     with open("product_data.json", "r") as f:
         product_store = json.load(f)
 
+    # Validate code
     if code not in product_store:
         return "Invalid or Expired QR Code"
 
+    # Fetch product info
     item = product_store[code]
 
     return render_template(
@@ -139,6 +148,7 @@ def view_item():
         authenticity=item["authenticity"],
         brand=item["brand"]
     )
+
 
 
 # ---------------------------
