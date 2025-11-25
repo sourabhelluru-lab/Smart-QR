@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, session, redirect, render_template
-import qrcode, base64
+import segno, base64
 from io import BytesIO
 import json, random, string
 
@@ -56,7 +56,7 @@ def generate_page():
 
 
 # ---------------------------
-# QR GENERATION (PROFESSIONAL MODE)
+# QR Generation API (MICRO QR)
 # ---------------------------
 @app.route("/add-item", methods=["POST"])
 def add_item():
@@ -65,43 +65,51 @@ def add_item():
 
     data = request.json or request.form
 
-    # Load existing data
+    # Load database
     with open("product_data.json", "r") as f:
         product_store = json.load(f)
 
-    # Generate unique 6-character product code
+    # Generate unique product code
     code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
 
-    # Save product details
+    # Read input fields
+    item_id = data.get("id")
+    name = data.get("name")
+    price = data.get("price")
+    mfg_date = data.get("mfg_date")
+    expiry_date = data.get("expiry_date")
+    authenticity = data.get("authenticity")
+    brand = data.get("brand")
+
+    # Store the product
     product_store[code] = {
-        "id": data.get("id"),
-        "name": data.get("name"),
-        "price": data.get("price"),
-        "expiry": data.get("expiry_date"),
-        "authenticity": data.get("authenticity"),
-        "brand": data.get("brand")
+        "id": item_id,
+        "name": name,
+        "price": price,
+        "mfg_date": mfg_date,
+        "expiry": expiry_date,
+        "authenticity": authenticity,
+        "brand": brand
     }
 
     with open("product_data.json", "w") as f:
         json.dump(product_store, f, indent=4)
 
-    # ---------------------------
-    # ⭐ DYNAMIC HOST URL (works locally + works ON Render)
-    # ---------------------------
-    host = "https://smart-qr-4.onrender.com" # auto-detects domain
+    # Your live Render domain
+    host = "https://smart-qr-4.onrender.com"
     full_url = f"{host}/view-item?code={code}"
 
-    print("\nQR Link:", full_url, "\n")
+    print("\nMicro QR URL:", full_url, "\n")
 
-    # Generate QR code
-    img = qrcode.make(full_url)
+    # MICRO QR generation using segno
+    qr = segno.make(full_url, micro=True)
     buffer = BytesIO()
-    img.save(buffer, format="PNG")
+    qr.save(buffer, kind='png', scale=5)
     buffer.seek(0)
     qr_base64 = base64.b64encode(buffer.read()).decode("utf-8")
 
     return jsonify({
-        "message": "QR Generated Successfully!",
+        "message": "Micro QR Generated Successfully!",
         "qr_base64": qr_base64
     })
 
@@ -113,7 +121,6 @@ def add_item():
 def view_item():
     code = request.args.get("code")
 
-    # Load product data
     with open("product_data.json", "r") as f:
         product_store = json.load(f)
 
@@ -127,6 +134,7 @@ def view_item():
         item_id=item["id"],
         name=item["name"],
         price=item["price"],
+        mfg_date=item["mfg_date"],
         expiry=item["expiry"],
         authenticity=item["authenticity"],
         brand=item["brand"]
