@@ -120,22 +120,25 @@ def add_item():
 # ---------------------------
 @app.route("/view-item")
 def view_item():
-    # 1. Try normal ?code=XYZ in URL
+    # 1. Try ?code=XYZ (normal case)
     code = request.args.get("code")
 
-    # 2. If not found, maybe scanner sent only the code (raw text)
+    # 2. If scanner gives only the code (like TJ5LXE)
     if not code:
-        code = request.full_path.strip("/?")  # reads raw scanned text
+        raw = request.full_path.strip("/?")
+        code = raw.replace("/", "").replace("?", "").strip()
 
-    # Load database
+    # Clean extra characters
+    code = code.strip().replace("\n", "").replace("\r", "")
+
+    # Load product database
     with open("product_data.json", "r") as f:
         product_store = json.load(f)
 
-    # Validate code
+    # Validate product code
     if code not in product_store:
         return "Invalid or Expired QR Code"
 
-    # Fetch product info
     item = product_store[code]
 
     return render_template(
@@ -148,6 +151,7 @@ def view_item():
         authenticity=item["authenticity"],
         brand=item["brand"]
     )
+
 
 
 
