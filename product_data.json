@@ -14,5 +14,21 @@
         "expiry": "2025-11-13",
         "authenticity": "true",
         "brand": "pfizer"
+    },
+    "OXFSYL": {
+        "id": "123",
+        "name": "dolo",
+        "price": "15",
+        "expiry": "2025-11-27",
+        "authenticity": "true",
+        "brand": "pfizer"
+    },
+    "03867T": {
+        "id": "123",
+        "name": "dolo",
+        "price": "15",
+        "expiry": "2025-11-14",
+        "authenticity": "true",
+        "brand": "pfizer"
     }
 }

@@ -79,27 +79,33 @@
     <div class="container">
         <h2>Generate QR Code</h2>
 
-        <form id="qrForm">
-            <label>ID:</label>
-            <input type="text" name="id" required>
+        <form id="itemForm">
 
-            <label>Name:</label>
-            <input type="text" name="name" required>
+    <label>Brand / Company Name:</label>
+    <input type="text" id="brand" required>
 
-            <label>Price:</label>
-            <input type="text" name="price" required>
+    <label>Product Name:</label>
+    <input type="text" id="name" required>
 
-            <label>Expiry Date:</label>
-            <input type="date" name="expiry_date" required>
+    <label>Price:</label>
+    <input type="number" id="price" required>
 
-            <label>Authenticity:</label>
-            <input type="text" name="authenticity" required>
+    <label>Manufacturing Date:</label>
+    <input type="date" id="mfg_date" required>
 
-            <label>Brand:</label>
-            <input type="text" name="brand" required>
+    <label>Expiry Date:</label>
+    <input type="date" id="expiry_date" required>
 
-            <button type="submit">Generate QR</button>
-        </form>
+    <label>Authenticity:</label>
+    <select id="authenticity" required>
+        <option value="Genuine">Genuine</option>
+        <option value="Not Verified">Not Verified</option>
+    </select>
+
+    <button type="submit">Generate Micro QR</button>
+
+</form>
+
 
         <div class="qr-box">
             <img id="qrImage" />
