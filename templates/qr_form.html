@@ -34,7 +34,7 @@
             color: #555;
         }
 
-        input {
+        input, select {
             width: 100%;
             padding: 10px;
             margin-top: 6px;
@@ -66,7 +66,6 @@
 
         #qrImage {
             width: 250px;
-            height: 250px;
             display: none;
             border: 1px solid #ccc;
             border-radius: 8px;
@@ -81,31 +80,33 @@
 
         <form id="itemForm">
 
-    <label>Brand / Company Name:</label>
-    <input type="text" id="brand" required>
+            <label>Company / Brand:</label>
+            <input type="text" id="brand" required>
 
-    <label>Product Name:</label>
-    <input type="text" id="name" required>
+            <label>Product ID:</label>
+            <input type="text" id="id" required>
 
-    <label>Price:</label>
-    <input type="number" id="price" required>
+            <label>Product Name:</label>
+            <input type="text" id="name" required>
 
-    <label>Manufacturing Date:</label>
-    <input type="date" id="mfg_date" required>
+            <label>Price:</label>
+            <input type="number" id="price" required>
 
-    <label>Expiry Date:</label>
-    <input type="date" id="expiry_date" required>
+            <label>Manufacturing Date:</label>
+            <input type="date" id="mfg_date" required>
 
-    <label>Authenticity:</label>
-    <select id="authenticity" required>
-        <option value="Genuine">Genuine</option>
-        <option value="Not Verified">Not Verified</option>
-    </select>
+            <label>Expiry Date:</label>
+            <input type="date" id="expiry_date" required>
 
-    <button type="submit">Generate Micro QR</button>
+            <label>Authenticity:</label>
+            <select id="authenticity" required>
+                <option value="Genuine">Genuine</option>
+                <option value="Not Verified">Not Verified</option>
+            </select>
 
-</form>
+            <button type="submit">Generate Micro QR</button>
 
+        </form>
 
         <div class="qr-box">
             <img id="qrImage" />
@@ -114,35 +115,34 @@
     </div>
 
     <script>
-document.getElementById("itemForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
+        document.getElementById("itemForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
 
-    const data = {
-        brand: document.getElementById("brand").value,
-        name: document.getElementById("name").value,
-        price: document.getElementById("price").value,
-        mfg_date: document.getElementById("mfg_date").value,
-        expiry_date: document.getElementById("expiry_date").value,
-        authenticity: document.getElementById("authenticity").value
-    };
+            const data = {
+                id: document.getElementById("id").value,
+                brand: document.getElementById("brand").value,
+                name: document.getElementById("name").value,
+                price: document.getElementById("price").value,
+                mfg_date: document.getElementById("mfg_date").value,
+                expiry_date: document.getElementById("expiry_date").value,
+                authenticity: document.getElementById("authenticity").value
+            };
 
-    const response = await fetch("/add-item", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-    });
+            const response = await fetch("/add-item", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
 
-    const result = await response.json();
+            const result = await response.json();
 
-    if (result.qr_base64) {
-        document.getElementById("qrResult").innerHTML = `
-            <h3>Micro QR Code</h3>
-            <img src="data:image/png;base64,${result.qr_base64}" style="width:200px;">
-        `;
-    }
-});
-</script>
-
+            if (result.qr_base64) {
+                const qrImg = document.getElementById("qrImage");
+                qrImg.src = "data:image/png;base64," + result.qr_base64;
+                qrImg.style.display = "block";
+            }
+        });
+    </script>
 
 </body>
 </html>
