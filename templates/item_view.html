@@ -3,53 +3,48 @@
 <head>
     <title>Product Details</title>
     <style>
-        body {
-            background: #eef2f7;
-            font-family: Arial;
-            display: flex;
-            justify-content: center;
-            padding-top: 60px;
-        }
+    body {
+        background: #f2f4f8;
+        font-family: 'Arial', sans-serif;
+        display: flex;
+        justify-content: center;
+        padding: 40px 15px;
+    }
 
-        .card {
-            width: 420px;
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
+    .card {
+        width: 100%;
+        max-width: 420px;
+        background: white;
+        padding: 25px;
+        border-radius: 14px;
+        box-shadow: 0 5px 18px rgba(0,0,0,0.12);
+    }
 
-        h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 25px;
-        }
+    h2 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 25px;
+        font-size: 22px;
+        font-weight: 600;
+    }
 
-        .detail {
-            margin-bottom: 12px;
-            font-size: 17px;
-        }
+    .detail {
+        margin-bottom: 14px;
+        font-size: 17px;
+        display: flex;
+        justify-content: space-between;
+    }
 
-        .label {
-            font-weight: bold;
-            color: #555;
-        }
-    </style>
+    .label {
+        font-weight: bold;
+        color: #333;
+    }
+</style>
+
 </head>
 <body>
 
-    <div class="card">
-    <h2>Product Information</h2>
-
-    <div class="detail"><span class="label">Company Name:</span> {{ brand }}</div>
-    <div class="detail"><span class="label">Product Name:</span> {{ name }}</div>
-    <div class="detail"><span class="label">Price:</span> {{ price }}</div>
-    <div class="detail"><span class="label">Manufacturing Date:</span> {{ mfg_date }}</div>
-    <div class="detail"><span class="label">Expiry Date:</span> {{ expiry }}</div>
-    <div class="detail"><span class="label">Authenticity:</span> {{ authenticity }}</div>
-
-</div>
-
+    
 
 </body>
 </html>
